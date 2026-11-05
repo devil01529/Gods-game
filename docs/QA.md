@@ -20,3 +20,9 @@ The reproduction fixture uses real birth logic, stable parent IDs and a due birt
 Rendering used Mesa 25.0.7 llvmpipe software OpenGL, not an Android GPU. Images show an actual rendered game viewport, not mockups. No sustained mobile FPS, thermals or battery claim is made. **Physical Android installation and playtest, native Windows execution, 500-person stress certification, full scientific fluids and store publication were not run.** The APK is a debug-signed preview.
 
 See README for exact commands. GitHub-hosted CI and APK signature verification are separate build observations; the release page attaches the tested APK directly rather than making players extract a workflow ZIP.
+
+## Packaged APK
+
+`Worldkeeper-planet.apk` was exported from game source commit `f2bae62f81dbbd664be1d6d925cdaff6d2013143`. Android package inspection confirms `org.worldkeeper.planet`, version 0.2.0 / code 2, ARM64, minimum SDK 24 and target SDK 36. `apksigner verify --verbose` passed APK v2 and v3 signature verification. SHA-256: `91cefafa54b3a9bde1d7f9b6910a19535036c2e459f34cdf32830ed885dcfeb4`.
+
+The signed APK and checksum are held on the separate `codex/living-planet-apk` distribution branch; no private signing key is stored there. The release job publishes that verified binary only after source CI checks and exports succeed. Keeping the public distribution APK separate from the source branch avoids adding it to the code-review diff.

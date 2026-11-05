@@ -78,3 +78,38 @@ jobs:
             builds/Worldkeeper-linux.x86_64
             builds/Worldkeeper-windows.exe
           retention-days: 30
+  publish-living-planet:
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/codex/worldkeeper-android'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: devil01529/Gods-game
+    steps:
+      - name: Check out the locally verified signed APK
+        uses: actions/checkout@v4
+        with:
+          ref: codex/living-planet-apk
+      - name: Verify distribution checksum
+        run: sha256sum -c SHA256SUMS.txt
+      - name: Publish the direct APK download
+        run: |
+          cat > NOTES.md <<'NOTES'
+          Worldkeeper Living Planet 0.2 — Android APK
+
+          Download Worldkeeper-planet.apk below and open it on your phone. No ZIP extraction is needed. This installs as Worldkeeper Planet alongside the base APK.
+
+          Includes a continuous spherical world, 21 original 3D models, persistent NPC commands, revised menus, lethal calamities, interacting water/fire/lightning, radial debris physics, pets and wildlife, and reproduction with divine intervention.
+
+          Requires ARM64 Android 7.0+ and OpenGL ES 3.0. This is a debug-signed development preview. Local verification: 75 simulation checks, physics integration, progression fixture and mobile input tests. Physical Android performance still requires device testing.
+          NOTES
+          if gh release view v0.2.0-preview > /dev/null 2>&1; then
+            gh release upload v0.2.0-preview Worldkeeper-planet.apk SHA256SUMS.txt --clobber
+          else
+            source_commit=$(cat SOURCE_COMMIT)
+            gh release create v0.2.0-preview Worldkeeper-planet.apk SHA256SUMS.txt --target "$source_commit" --title 'Worldkeeper Living Planet 0.2 — Android APK' --notes-file NOTES.md --prerelease
+          fi
+          gh release view v0.2.0-preview --json url,assets
