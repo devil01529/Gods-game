@@ -161,7 +161,7 @@ func setup_ui() -> void:
  var toast_panel=panel(ui,Color(0.055,0.12,0.115,0.92)); toast_panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM); toast_panel.offset_left=-360; toast_panel.offset_right=360; toast_panel.offset_top=-270 if mobile_ui else -224; toast_panel.offset_bottom=-220 if mobile_ui else -180
  toast_label=label("",13,INK,toast_panel); toast_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER; toast_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
  preview_label=label("Drag to explore  ·  Pinch to zoom  ·  Tap a person to inspect",12,Color("e7e5c9"),ui)
- preview_label.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM); preview_label.offset_left=-350; preview_label.offset_right=350; preview_label.offset_top=-251; preview_label.offset_bottom=-228; preview_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+ preview_label.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM); preview_label.offset_left=-350; preview_label.offset_right=350; preview_label.offset_top=-306 if mobile_ui else -251; preview_label.offset_bottom=-278 if mobile_ui else -228; preview_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
  move_pad=GridContainer.new(); move_pad.columns=3; ui.add_child(move_pad); move_pad.position=Vector2(30,540); move_pad.visible=false
  for direction in [Vector2(-1,-1),Vector2(0,-1),Vector2(1,-1),Vector2(-1,0),Vector2.ZERO,Vector2(1,0),Vector2(-1,1),Vector2(0,1),Vector2(1,1)]:
   var d=direction
