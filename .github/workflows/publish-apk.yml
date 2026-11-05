@@ -1,0 +1,30 @@
+name: Publish direct Android APK download
+on:
+  push:
+    branches: [codex/worldkeeper-android]
+    paths: [.github/workflows/publish-apk.yml]
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: devil01529/Gods-game
+    steps:
+      - name: Download the verified Android build
+        run: |
+          gh api repos/devil01529/Gods-game/actions/artifacts/13405559629/zip > android-artifact.zip
+          unzip android-artifact.zip
+          sed 's#builds/##g' SHA256SUMS.txt | sha256sum -c -
+      - name: Publish APK on GitHub Releases
+        run: |
+          if gh release view v0.1.0-preview > /dev/null 2>&1; then
+            gh release upload v0.1.0-preview Worldkeeper-android.apk --clobber
+          else
+            gh release create v0.1.0-preview Worldkeeper-android.apk --target 1620cebf2e1c38868573a7be28bd424cdace9eb9 --title 'Worldkeeper — Android APK' --notes 'Download Worldkeeper-android.apk under Assets and open it on your Android phone to install. No ZIP extraction is needed. Requires ARM64 Android 7.0 or newer with OpenGL ES 3.0. This is a debug-signed playable preview; physical Android performance testing is still pending.' --prerelease
+          fi
+          gh release view v0.1.0-preview --json url,assets
