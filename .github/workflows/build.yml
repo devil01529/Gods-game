@@ -31,19 +31,19 @@ jobs:
       - name: Play through civilization progression
         run: |
           timeout 120 godot --headless --script tests/progression.gd | tee progression.log
-          rg 'PROGRESSION_PASS' progression.log
+          grep -F 'PROGRESSION_PASS' progression.log
       - name: Test real pointer and keyboard paths
         run: |
           timeout 90 godot --headless --quit-after 500 -- --input-smoke | tee input.log
-          rg 'INPUT_SMOKE_PASS' input.log
+          grep -F 'INPUT_SMOKE_PASS' input.log
       - name: Test mobile command sheet and touch gestures
         run: |
           timeout 90 godot --headless --quit-after 500 -- --input-smoke --mobile-ui | tee mobile.log
-          rg 'INPUT_SMOKE_PASS' mobile.log
+          grep -F 'INPUT_SMOKE_PASS' mobile.log
       - name: Test scene integration
         run: |
           timeout 90 godot --headless -- --smoke | tee smoke.log
-          rg 'UI_SMOKE_PASS' smoke.log
+          grep -F 'UI_SMOKE_PASS' smoke.log
       - name: Configure Android export
         run: |
           sdkmanager 'platform-tools' 'build-tools;36.0.0' 'platforms;android-36'
