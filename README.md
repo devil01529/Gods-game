@@ -1,73 +1,59 @@
-# Worldkeeper
+# Worldkeeper — Living Planet 0.2
 
-An original, offline 3D god-game for **Android**, built with **Godot 4.6.3 stable** (`7d41c59c4`). Guide twelve named settlers through a river flood, take direct control of their actions, and grow a civilization toward an observatory. The supplied [Worldkeeper brief](docs/Worldkeeper-original.md) is preserved in full.
+An offline Android god-game built with **Godot 4.6.3**. Explore one continuous spherical planet, guide every citizen, build settlements, wield destructive and restorative powers, and nurture animals and new generations.
 
-![Worldkeeper gameplay](docs/screenshot.png)
+**[Download the Android APK](https://github.com/devil01529/Gods-game/releases/download/v0.2.0-preview/Worldkeeper-planet.apk)** · [Download page](https://github.com/devil01529/Gods-game/releases/tag/v0.2.0-preview)
 
-## Play on Android
+Open the APK on an **ARM64 Android 7.0+** phone with OpenGL ES 3.0. It installs as **Worldkeeper Planet**, alongside the original base app, keeping the original installation intact. Play in landscape. This is a development preview; native phone performance is still awaiting a physical-device test.
 
-1. Open this repository's **Actions → Test and build Worldkeeper** and select a successful run.
-2. Download **Worldkeeper-Android-arm64**, extract the ZIP, and open `Worldkeeper-android.apk` on your phone. Allow installation from that download source when Android asks.
-3. Play in **landscape**. This build targets ARM64 Android 7.0+ with OpenGL ES 3.0 support. It is a debug-signed preview, not a Play Store release. Updates built with a different debug certificate may require uninstalling the previous preview first (which deletes local saves).
+![Living Planet gameplay](docs/screenshot.png)
 
-An APK was also exported and signature-verified during development; see [QA](docs/QA.md). Physical phone installation, thermals, and sustained frame rate still require device testing. There is no login, backend, advertising, or network requirement.
+## What changed from the base APK
 
-## Your five objectives
+- **One spherical world:** 32,768 live cells, an 82-unit planet radius, oceans, rivers, continents and polar caps. Every person, animal, tree and building belongs to that same surface. Drag to orbit and zoom continuously; tap a distant region to descend there. The square terrain patch and floating refuge labels are gone.
+- **Original 3D models:** four articulated citizen variants, nine building models, four tree variants, dogs, cats, deer and rescue boats. Characters walk and work with animated limbs. Models are shipped as GLB assets, not sprites or static scenery images. Textured ground, instanced vegetation, flowing water, atmosphere, clouds, fire and smoke replace the base presentation.
+- **People obey:** the simulation runs at 10 Hz instead of one-second jumps. Citizens move at 1×. Move finishes with Hold; explicit orders stay in force until released. Queues, interrupted work, construction targets and cargo recovery have regression coverage. Menus pause the world while open and restore your prior pause state.
+- **Consequential calamities:** wildfire, deluge, lightning, earthquakes, tornadoes, meteors and drought. Fire burns people, vegetation and buildings; deep water drowns; lightning follows connected water; quake impacts injure or kill and damage structures. Rain extinguishes flames and restores dry soil. Wet ground resists ignition; wind spreads fire. Shields protect people and animals. Rigid debris uses radial gravity and terrain/building collision.
+- **Life and intervention:** pets follow owners, roam or stay; animals eat and can die. Healthy adults with food and spare beds can have children. You can pair adults, bless a birth now, delay or cancel an expected birth, pause natural reproduction, guide growth, heal, kill or resurrect.
 
-- Inspect one person and understand their needs.
-- Give a direct order.
-- Complete a storehouse.
-- Keep at least eight settlers alive through the day-three flood.
-- Restore a working food supply after the storm.
+## Play
 
-Continue after the River Test: establish trade, build a market and workshop, research industry, install wind power, unlock the planetary age, and construct an observatory. The longer stewardship goal requires food-route access between Riverhaven and the western refuge for an uninterrupted year.
+**Phone:** drag to orbit, pinch to zoom. **Earth** pulls back to the whole planet; tap a region to zoom in. Tap a person or open **People** to inspect and command them. Select an order and tap its destination. **Resume autonomy** releases direct control; **Possess** opens a movement pad. The lower action row scrolls horizontally.
 
-## Controls
+**Powers** contains restorative and terrain controls. **Disasters** contains destructive powers, each with a footprint and confirmation. Press **Play** if the clock is paused and you want ongoing fire, water and injuries to advance. **Build** places foundations; autonomous builders travel there. A builder with your Hold command will stay put until released. **Life** contains families, pets and reproduction controls. **World** contains research, diplomacy, laws, chronicle and climate. **Menu** contains saves, graphics, contrast, motion and sound settings.
 
-**Phone:** drag to pan, pinch to zoom; tap people or choose them from **People**. The command sheet provides orders, possession, and divine lifting. Use the movement pad while possessing. **Guide** always opens the objectives, evacuation, help, and camp diplomacy. The lower action row scrolls horizontally. Miracles preview their footprint and affected residents before confirmation. **☰** contains saves, seed entry, graphics, audio, and accessibility settings.
+**Desktop:** mouse wheel zooms; drag orbits; Space pauses; Tab changes planet/surface distance; Escape closes or cancels. WASD moves a possessed person and E gathers timber. Time rates are 1×, 4×, 8× and 16×. One day lasts eight minutes at 1×.
 
-**Desktop:** left-click selects or casts; drag pans; right-drag orbits; wheel zooms; Space pauses; Tab toggles globe overview; Escape cancels. Possession uses WASD and E to gather. A direct order or divine lift explicitly releases possession. Shift from 1× to 4× or 16× with the speed button. One day lasts eight real minutes at 1×.
+The five objectives are to meet a person, give an order, build a storehouse, welcome a new generation and construct an observatory. The River Test still brings a flood on day three. Survive by evacuation, a levee/riverbank intervention or rescue boats negotiated from Cedar Camp.
 
-**God powers:** rain, healing, soil restoration, raise/lower terrain, shielding, ignition, lightning, resurrection, create life, earthquakes, wind, and cooling. Sandbox starts enabled: miracles are free, extinction is recoverable, stocks can be edited, and new citizens can belong to either faction. Challenge uses regenerating faith. All visible citizens can be selected, assigned roles, ordered, lifted, possessed, killed, or resurrected.
+## Build and test
 
-## Run from source
-
-Install the exact **Godot 4.6.3 standard editor**, not the .NET edition. No addons or external code dependencies are required.
+Install **Godot 4.6.3 standard**, with matching export templates. Blender is only needed to regenerate models; the checked-in GLB files are ready to run.
 
 ```sh
 godot --headless --path . --editor --import --quit
 godot --path .
 godot --headless --path . --script tests/run_tests.gd
 godot --headless --path . --script tests/progression.gd
-godot --headless --path . --quit-after 500 -- --input-smoke
+godot --headless --path . --script tests/physics_integration.gd
+godot --headless --path . --quit-after 600 -- --input-smoke --mobile-ui
 godot --headless --path . -- --smoke
 ```
 
-The input smoke test must print `INPUT_SMOKE_PASS`; the progression test must print `PROGRESSION_PASS`. A script assertion does not automatically terminate Godot, so CI uses a timeout and checks these markers.
+Test markers are `PROGRESSION_PASS`, `PHYSICS_PASS`, `INPUT_SMOKE_PASS` and `UI_SMOKE_PASS`. CI checks these markers as well as process status; GDScript assertions alone do not terminate a running scene.
 
-## Export
-
-Install matching **4.6.3 export templates**. Desktop presets are included:
-
-```sh
-mkdir -p builds
-godot --headless --path . --export-release Linux builds/Worldkeeper-linux.x86_64
-godot --headless --path . --export-release Windows builds/Worldkeeper-windows.exe
-```
-
-For Android, install JDK 21, Android platform-tools, `build-tools;36.0.0`, and `platforms;android-36`. Set `JAVA_HOME` and `ANDROID_HOME`, then:
+To export Android, install JDK 21, Android platform-tools, `build-tools;36.0.0` and `platforms;android-36`; set `JAVA_HOME` and `ANDROID_HOME` and configure the local debug keystore in Godot's editor settings:
 
 ```sh
 python3 tools/configure_android.py
-godot --headless --path . --export-debug Android builds/Worldkeeper-android.apk
+mkdir -p builds
+godot --headless --path . --export-debug Android builds/Worldkeeper-planet.apk
 ```
 
-Godot's editor settings need a debug keystore, alias, and password. Opening the Android export preset in the editor generates the usual local debug keystore. CI explicitly generates one if missing. Signing keys and local SDK paths are never committed. Release signing and Play Store publication are not configured.
+Linux and Windows export presets are also included. Model source is reproducible with `blender -b -t 2 -P tools/create_models.py`. Signing keys and machine SDK paths are not committed. The published preview uses the tested local APK; CI exports are separately signed development artifacts.
 
-## Design and scope
+## Boundaries
 
-The simulation is independent of the 3D scene. It has stable IDs, separate random streams, validated player commands, a wrapped 128×64 grid, explicit cargo interruption rules, deterministic persistence, and a linked chronicle. Saves use a versioned JSON envelope with a base64 Godot Variant payload to preserve exact floating-point and RNG values. The previous good save rotates to `.bak`; invalid primary saves fall back to that backup. Loading validates the state before changing the active game.
+These are deterministic **game physics**, with local water-level transfer, moisture, fire spread, electric connectivity, collision and radial debris gravity. This is not a scientific atmospheric or fluid solver. Wildlife, farming, households, relationships, trade and combat are intentionally simplified. There are no tactical armies, galaxy colonization, full genetics, marriage/social dialogue systems, or feature parity with The Universim. Planet details use distance-based visibility for mobile rendering. Version 2 saves are separate from the base APK's version 1 saves.
 
-This is a **playable first release foundation**, with original stylized procedural graphics. It is not a feature-complete reproduction of *The Universim* or completion of all eight production milestones in the brief. Floods use a tuned river-level model and levee/bank protection; diplomacy, household logistics, combat, and climate are simplified. The globe shows the same terrain but is an overview, not seamless surface navigation. Family generations, full regional transport inventories, sophisticated floods, technology trees, large faction wars, colonization, remappable controls, and production art remain future work. See [development plan](docs/DEVELOPMENT.md) for the explicit boundaries.
-
-Genre reference: [The Universim on Steam](https://store.steampowered.com/app/352720/The_Universim/). Worldkeeper uses original names, models, UI, writing, rules and sounds. See [asset provenance](docs/CREDITS.md).
+[QA results](docs/QA.md) · [Development notes](docs/DEVELOPMENT.md) · [Models and licenses](docs/CREDITS.md) · [Original brief](docs/Worldkeeper-original.md)

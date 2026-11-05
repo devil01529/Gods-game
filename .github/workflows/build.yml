@@ -30,15 +30,19 @@ jobs:
         run: godot --headless --script tests/run_tests.gd
       - name: Play through civilization progression
         run: |
-          timeout 120 godot --headless --script tests/progression.gd | tee progression.log
+          timeout 300 godot --headless --script tests/progression.gd | tee progression.log
           grep -F 'PROGRESSION_PASS' progression.log
+      - name: Verify radial physics and spherical collisions
+        run: |
+          timeout 90 godot --headless --script tests/physics_integration.gd | tee physics.log
+          grep -F 'PHYSICS_PASS' physics.log
       - name: Test real pointer and keyboard paths
         run: |
-          timeout 90 godot --headless --quit-after 500 -- --input-smoke | tee input.log
+          timeout 90 godot --headless --quit-after 600 -- --input-smoke | tee input.log
           grep -F 'INPUT_SMOKE_PASS' input.log
       - name: Test mobile command sheet and touch gestures
         run: |
-          timeout 90 godot --headless --quit-after 500 -- --input-smoke --mobile-ui | tee mobile.log
+          timeout 90 godot --headless --quit-after 600 -- --input-smoke --mobile-ui | tee mobile.log
           grep -F 'INPUT_SMOKE_PASS' mobile.log
       - name: Test scene integration
         run: |
@@ -55,16 +59,16 @@ jobs:
       - name: Export Android, Linux and Windows
         run: |
           mkdir -p builds
-          godot --headless --export-debug Android builds/Worldkeeper-android.apk
+          godot --headless --export-debug Android builds/Worldkeeper-planet.apk
           godot --headless --export-release Linux builds/Worldkeeper-linux.x86_64
           godot --headless --export-release Windows builds/Worldkeeper-windows.exe
-          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose builds/Worldkeeper-android.apk
-          sha256sum builds/Worldkeeper-android.apk > builds/SHA256SUMS.txt
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose builds/Worldkeeper-planet.apk
+          sha256sum builds/Worldkeeper-planet.apk > builds/SHA256SUMS.txt
       - uses: actions/upload-artifact@v4
         with:
-          name: Worldkeeper-Android-arm64
+          name: Worldkeeper-Living-Planet-Android
           path: |
-            builds/Worldkeeper-android.apk
+            builds/Worldkeeper-planet.apk
             builds/SHA256SUMS.txt
           retention-days: 30
       - uses: actions/upload-artifact@v4

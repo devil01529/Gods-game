@@ -1,7 +1,9 @@
-# Credits and asset provenance
+# Original models, assets and licenses
 
-- Worldkeeper code, procedural terrain, mesh models, icon, UI, animation, and synthesized ambient audio were authored for this repository. No art, audio, code, or interface assets were extracted from another game.
-- **Inter**, by the Inter Project Authors, from https://github.com/google/fonts/tree/main/ofl/inter. SIL Open Font License 1.1; full license retained at `assets/fonts/Inter-OFL.txt`.
-- **Cormorant Garamond**, by Christian Thalmann and contributors, from https://github.com/google/fonts/tree/main/ofl/cormorantgaramond. SIL Open Font License 1.1; full license retained at `assets/fonts/Display-OFL.txt`.
-- Godot Engine **4.6.3 stable**, MIT license: https://godotengine.org/license/. Export templates must match the editor. Godot includes its own third-party notices in exported builds.
-- Genre research consulted the official Steam listing for Crytivo's **The Universim** on 2026-11-05: https://store.steampowered.com/app/352720/The_Universim/. Its description informed the broad themes of civilization ages, god powers, resource management, ecosystems and disasters. Worldkeeper does not claim the reference game's 200+ research perks, galaxy colonization or complete feature set. The brief's Crytivo page returned 404 during research.
+- All Worldkeeper game code, planet generation, UI, icon, environment, shaders, animation, effects, synthesized sounds and mesh models were authored for this repository. No assets were extracted from The Universim or another game.
+- **21 original GLB models**: four citizen variants with separate moving limbs, nine building types, four tree variants, dog, cat, deer and rescue boat. The Blender generator is `tools/create_models.py`; ready-to-use files are in `assets/models`. Models are vertex painted and batched by part to reduce draw calls. Blender 4.3.2 was used to generate them.
+- `assets/textures/meadow.png` is an original deterministic procedural grayscale detail texture, generated with NumPy/Pillow. Grass meshes, atmosphere, water, fire, smoke, electricity and tornado visuals are procedural original assets.
+- **Inter**, Inter Project Authors: https://github.com/google/fonts/tree/main/ofl/inter. SIL Open Font License 1.1, retained at `assets/fonts/Inter-OFL.txt`.
+- **Cormorant Garamond**, Christian Thalmann and contributors: https://github.com/google/fonts/tree/main/ofl/cormorantgaramond. SIL Open Font License 1.1, retained at `assets/fonts/Display-OFL.txt`.
+- Godot Engine **4.6.3**, MIT: https://godotengine.org/license/. Matching official export templates carry the engine's third-party notices.
+- Broad genre reference: Crytivo's **The Universim**, official Steam listing https://store.steampowered.com/app/352720/The_Universim/. Worldkeeper does not claim the reference game's technology tree, galaxy, content or complete feature set.

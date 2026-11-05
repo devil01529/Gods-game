@@ -1,7 +1,7 @@
 class_name WorldRules
 extends RefCounted
 
-const VERSION = 1
+const VERSION = 2
 const ENGINE = "4.6.3"
 const BUILDINGS = {
  "storehouse": {"title":"Storehouse", "wood":18, "work":60, "era":0},
@@ -19,14 +19,18 @@ const POWERS = {
  "heal": {"cost":8, "radius":4.0, "title":"Heal"},
  "forest": {"cost":10, "radius":3.0, "title":"Restore soil"},
  "raise": {"cost":14, "radius":3.0, "title":"Raise earth"},
- "lower": {"cost":14, "radius":3.0, "title":"Lower earth"},
- "fire": {"cost":12, "radius":3.0, "title":"Ignite"},
+ "lower": {"cost":14, "radius":3.0, "title":"Lower earth", "danger":true},
+ "fire": {"cost":12, "radius":3.8, "title":"Wildfire", "danger":true},
  "shield": {"cost":15, "radius":5.0, "title":"Shield"},
- "lightning": {"cost":18, "radius":2.5, "title":"Lightning"},
- "quake": {"cost":25, "radius":5.0, "title":"Earthquake"},
+ "lightning": {"cost":18, "radius":2.5, "title":"Lightning", "danger":true},
+ "quake": {"cost":25, "radius":6.0, "title":"Earthquake", "danger":true},
  "resurrect": {"cost":20, "radius":4.0, "title":"Resurrect"},
  "spawn": {"cost":15, "radius":1.0, "title":"Create life"},
  "wind": {"cost":5, "radius":5.0, "title":"Change wind"},
+ "flood": {"cost":22,"radius":6.0,"title":"Deluge","danger":true},
+ "tornado": {"cost":25,"radius":5.0,"title":"Tornado","danger":true},
+ "meteor": {"cost":35,"radius":5.0,"title":"Meteor","danger":true},
+ "drought": {"cost":18,"radius":7.0,"title":"Drought","danger":true},
  "cool": {"cost":10, "radius":5.0, "title":"Cool climate"}
 }
 const ERAS = ["DAWN", "SETTLEMENT", "INDUSTRY", "PLANETARY"]
